@@ -6,13 +6,13 @@ app = Flask(__name__)
 app.secret_key = "your_secret_key"
 
 # AWS resources
-dynamodb = boto3.resource('dynamodb')
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 books_table = dynamodb.Table('Books')
 cart_table = dynamodb.Table('Cart')
 checkout_table = dynamodb.Table('Checkout')
 
-sns = boto3.client('sns')
-sns_topic_arn = "arn:aws:sns:region:account-id:OrderNotifications"
+sns = boto3.client('sns', region_name='us-east-1')
+sns_topic_arn = "arn:aws:sns:us-east-1:329599633378:OrderNotifications"
 
 @app.route('/')
 def index():
@@ -76,4 +76,5 @@ def checkout():
     return render_template('checkout.html', message="Order placed successfully!")
 
 if __name__ == '__main__':
+
     app.run(debug=True, host='0.0.0.0', port=5000)
